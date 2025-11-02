@@ -29,6 +29,34 @@ XiaoShun Toolbox is a modern collection of developer tools that provides commonl
 
 ---
 
+## 📸 项目截图 | Screenshots
+
+### 🏠 主页界面 | Home Interface
+<div align="center">
+<img src="./docs/screenshots/home.png" alt="主页界面" width="800"/>
+<p><em>现代化的主页设计，展示所有可用工具</em></p>
+</div>
+
+### 🕒 时间转换工具 | Time Conversion Tool
+<div align="center">
+<img src="./docs/screenshots/time-tool.png" alt="时间转换工具" width="800"/>
+<p><em>直观的时间戳转换界面，支持多种格式</em></p>
+</div>
+
+### 🗺️ 路径规划工具 | Path Planning Tool
+<div align="center">
+<img src="./docs/screenshots/path-planning.png" alt="路径规划工具" width="800"/>
+<p><em>交互式路径规划可视化，支持多种算法</em></p>
+</div>
+
+### 🌙 深色模式 | Dark Mode
+<div align="center">
+<img src="./docs/screenshots/dark-mode.png" alt="深色模式" width="800"/>
+<p><em>优雅的深色主题，保护眼睛的同时保持美观</em></p>
+</div>
+
+---
+
 ## ✨ 功能特性 | Features
 
 ### 🕒 时间转换工具 | Time Conversion Tool
