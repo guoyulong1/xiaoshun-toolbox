@@ -245,8 +245,8 @@ chore: 构建/工具链更新
 ## 👨‍💻 作者 | Author
 
 **Eric (GuoYuLong)**
-- GitHub: [@your-username](https://github.com/your-username)
-- Email: your-email@example.com
+- GitHub: [@Eric](https://github.com/guoyulong1)
+- Email: guoyulong111@gmail.com
 
 ---
 
