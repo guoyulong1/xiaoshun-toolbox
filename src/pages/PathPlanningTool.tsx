@@ -93,7 +93,7 @@ export default function PathPlanningTool(){
     
     try {
       // 动态导入gif.js
-      const GIF = await import('gif.js').then(m => m.default)
+      const GIF = await import('gif.js').then(m => m.default) as any
       
       // 创建GIF实例
       const gif = new GIF({
@@ -188,7 +188,7 @@ export default function PathPlanningTool(){
       }
       
       // 渲染GIF
-      gif.on('finished', function(blob) {
+      gif.on('finished', function(blob: any) {
         const link = document.createElement('a')
         link.href = URL.createObjectURL(blob)
         link.download = `pathfinding_${algo}_${Date.now()}.gif`
@@ -196,16 +196,16 @@ export default function PathPlanningTool(){
         setIsRunning(false)
       })
       
-      gif.on('progress', function(p) {
+      gif.on('progress', function(p: any) {
         console.log('GIF生成进度:', Math.round(p * 100) + '%')
       })
       
       gif.render()
       
-    } catch (error) {
+    } catch (error: any) {
       console.error('GIF导出失败:', error)
       setIsRunning(false)
-      alert('GIF导出失败: ' + error.message)
+      alert('GIF导出失败: ' + (error?.message || '未知错误'))
     }
   }
 

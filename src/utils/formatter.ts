@@ -172,25 +172,25 @@ function formatJavaScript(code: string, options: FormatOptions): FormatResult {
     
     // 基本格式化规则
     // 1. 在 { 后添加换行和缩进
-    formatted = formatted.replace(/\{\s*/g, (match) => {
+    formatted = formatted.replace(/\{\s*/g, () => {
       changes++;
       return '{\n' + indent;
     });
     
     // 2. 在 } 前添加换行
-    formatted = formatted.replace(/\s*\}/g, (match) => {
+    formatted = formatted.replace(/\s*\}/g, () => {
       changes++;
       return '\n}';
     });
     
     // 3. 在 ; 后添加换行
-    formatted = formatted.replace(/;\s*/g, (match) => {
+    formatted = formatted.replace(/;\s*/g, () => {
       changes++;
       return ';\n' + indent;
     });
     
     // 4. 在操作符周围添加空格
-    formatted = formatted.replace(/([=+\-*/<>!])([^=])/g, (match, op, next) => {
+    formatted = formatted.replace(/([=+\-*/<>!])([^=])/g, (_, op, next) => {
       changes++;
       return op + ' ' + next;
     });

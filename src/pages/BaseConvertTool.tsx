@@ -2,7 +2,6 @@ import { useMemo, useState } from 'react'
 import { parseNumber, toBaseString, asciiToBytes, hexToBytes, bytesToHex, bytesToAscii } from '../utils/base'
 import PageHeader from '../components/ui/PageHeader'
 import Card from '../components/ui/Card'
-import Button from '../components/ui/Button'
 
 export default function BaseConvertTool() {
   const [input, setInput] = useState('')

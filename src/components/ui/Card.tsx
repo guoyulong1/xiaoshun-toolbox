@@ -1,7 +1,7 @@
-import { ReactNode } from 'react'
+import { type ReactNode } from 'react'
 
 type Variant = 'solid' | 'glass'
-type Accent = 'brand' | 'blue' | 'green' | 'red' | 'orange' | 'purple'
+type Accent = 'brand' | 'blue' | 'green' | 'red' | 'orange' | 'purple' | 'indigo' | 'teal' | 'cyan' | 'pink'
 
 export interface CardProps {
   title?: string
@@ -21,6 +21,10 @@ const accentMap: Record<Accent, string> = {
   red: 'from-red-500 to-red-600',
   orange: 'from-orange-500 to-orange-600',
   purple: 'from-purple-500 to-purple-600',
+  indigo: 'from-indigo-500 to-indigo-600',
+  teal: 'from-teal-500 to-teal-600',
+  cyan: 'from-cyan-500 to-cyan-600',
+  pink: 'from-pink-500 to-pink-600',
 }
 
 export default function Card({

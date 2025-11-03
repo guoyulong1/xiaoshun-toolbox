@@ -56,7 +56,7 @@ function objectToXml(obj: any, rootName: string = 'root', indent: number = 0): s
     }
     
     let result = `${spaces}<${rootName}>\n`
-    obj.forEach((item, index) => {
+    obj.forEach((item) => {
       result += objectToXml(item, 'item', indent + 1) + '\n'
     })
     result += `${spaces}</${rootName}>`

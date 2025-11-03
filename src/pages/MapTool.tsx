@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState } from 'react'
 import PageHeader from '../components/ui/PageHeader'
 import Card from '../components/ui/Card'
 import Button from '../components/ui/Button'
@@ -10,30 +10,6 @@ type MapData = MapCell[][]
 
 
 
-
-// 地图单元格样式
-const getCellStyle = (cell: MapCell) => {
-  switch (cell) {
-    case 0: return 'bg-gray-100 dark:bg-gray-800' // 空地
-    case 1: return 'bg-gray-900 dark:bg-gray-700' // 墙壁
-    case 2: return 'bg-yellow-400 dark:bg-yellow-600' // 门
-    case 3: return 'bg-blue-400 dark:bg-blue-600' // 家具
-    case 4: return 'bg-purple-400 dark:bg-purple-600' // 地毯
-    default: return 'bg-gray-100 dark:bg-gray-800'
-  }
-}
-
-// 地图单元格图标
-const getCellIcon = (cell: MapCell) => {
-  switch (cell) {
-    case 0: return '' // 空地
-    case 1: return '⬛' // 墙壁
-    case 2: return '🚪' // 门
-    case 3: return '🪑' // 家具
-    case 4: return '🟣' // 地毯
-    default: return ''
-  }
-}
 
 // 解析上传的地图文件
 const parseMapFile = (content: string): { data: MapData; width: number; height: number } | null => {
@@ -127,16 +103,6 @@ export default function MapTool() {
     setParseError('')
     setShowUploaded(false)
   }
-
-  // 根据地图尺寸动态调整单元格大小，大地图使用更大的单元格以提升性能
-  const cellSize = useMemo(() => {
-    const totalCells = currentSize.width * currentSize.height
-    if (totalCells > 160000) return 1 // 400x400以上
-    if (totalCells > 40000) return 2   // 200x200以上
-    if (currentSize.width > 600) return 3
-    if (currentSize.width > 400) return 4
-    return 6
-  }, [currentSize.width, currentSize.height])
 
   return (
     <div className="space-y-8">

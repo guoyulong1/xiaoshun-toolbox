@@ -368,7 +368,7 @@ function isPathClear(g: GridType, from: Point, to: Point): boolean {
 
 function reconstructRRTPath(tree: {point: Point, parent: number | null}[], nodeIdx: number): Point[] {
   const path: Point[] = []
-  let current = nodeIdx
+  let current: number | null = nodeIdx
   
   // 收集树路径上的关键节点
   const keyPoints: Point[] = []
