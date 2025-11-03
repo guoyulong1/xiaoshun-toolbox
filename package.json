@@ -19,6 +19,10 @@
     "deploy:server": "chmod +x deploy-server.sh && ./deploy-server.sh",
     "deploy:nginx": "chmod +x deploy-nginx.sh && ./deploy-nginx.sh",
     "deploy:pm2": "chmod +x deploy-pm2.sh && ./deploy-pm2.sh",
+    "deploy:quick": "chmod +x quick-deploy.sh && ./quick-deploy.sh",
+    "deploy:simple": "chmod +x simple-deploy.sh && ./simple-deploy.sh",
+    "deploy:serve": "chmod +x serve-deploy.sh && ./serve-deploy.sh",
+    "fix:nginx": "chmod +x fix-nginx.sh && ./fix-nginx.sh",
     "serve:pm2": "pm2 serve dist 3000 --spa --name xiaoshun-toolbox",
     "pm2:stop": "pm2 delete xiaoshun-toolbox",
     "pm2:restart": "pm2 restart xiaoshun-toolbox"
