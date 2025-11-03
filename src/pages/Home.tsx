@@ -53,6 +53,20 @@ export default function Home() {
       icon: '🔍',
       path: '/json',
       accent: 'teal'
+    },
+    {
+      title: 'YAML 转换',
+      description: 'YAML与JSON、XML、CSV格式互转，支持实时转换、语法验证和数据统计',
+      icon: '📄',
+      path: '/yaml',
+      accent: 'cyan'
+    },
+    {
+      title: '代码格式化',
+      description: '支持16+种编程语言的代码格式化，智能检测语言类型，多种格式化方案',
+      icon: '🎨',
+      path: '/formatter',
+      accent: 'pink'
     }
   ]
 

@@ -7,6 +7,8 @@ import Home from './pages/Home'
 import TimeTool from './pages/TimeTool'
 import BaseConvertTool from './pages/BaseConvertTool'
 import EncodingTool from './pages/EncodingTool'
+import YamlTool from './pages/YamlTool'
+import FormatterTool from './pages/FormatterTool'
 import PathPlanningTool from './pages/PathPlanningTool'
 import RoboticsTool from './pages/RoboticsTool'
 import MapTool from './pages/MapTool'
@@ -21,10 +23,12 @@ createRoot(document.getElementById('root')!).render(
           <Route path="time" element={<TimeTool />} />
           <Route path="base" element={<BaseConvertTool />} />
           <Route path="encoding" element={<EncodingTool />} />
+          <Route path="json" element={<JsonTool />} />
+          <Route path="yaml" element={<YamlTool />} />
+          <Route path="formatter" element={<FormatterTool />} />
           <Route path="path" element={<PathPlanningTool />} />
           <Route path="robot" element={<RoboticsTool />} />
           <Route path="map" element={<MapTool />} />
-          <Route path="json" element={<JsonTool />} />
         </Route>
       </Routes>
     </BrowserRouter>

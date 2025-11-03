@@ -2,9 +2,11 @@ import { useState } from 'react'
 import { base64Encode, base64Decode, gzipCompressToBase64, gzipDecompressFromBase64, zlibCompressToBase64, zlibDecompressFromBase64 } from '../utils/encoding'
 
 export default function EncodingTool() {
-  // Base64 编码解码
-  const [plainText, setPlainText] = useState('')
-  const [encodedText, setEncodedText] = useState('')
+  // Base64 编码解码 - 使用独立的输入输出变量
+  const [base64Input, setBase64Input] = useState('')
+  const [base64Output, setBase64Output] = useState('')
+  const [base64DecInput, setBase64DecInput] = useState('')
+  const [base64DecOutput, setBase64DecOutput] = useState('')
   const [encodeError, setEncodeError] = useState('')
   const [decodeError, setDecodeError] = useState('')
 
@@ -33,11 +35,11 @@ export default function EncodingTool() {
   const handleEncode = () => {
     try {
       setEncodeError('')
-      const result = base64Encode(plainText)
-      setEncodedText(result)
+      const result = base64Encode(base64Input)
+      setBase64Output(result)
     } catch (error) {
       setEncodeError('编码失败，请检查输入内容')
-      setEncodedText('')
+      setBase64Output('')
     }
   }
 
@@ -45,16 +47,16 @@ export default function EncodingTool() {
   const handleDecode = () => {
     try {
       setDecodeError('')
-      const result = base64Decode(encodedText)
+      const result = base64Decode(base64DecInput)
       if (result === null) {
         setDecodeError('解码失败，请检查Base64格式是否正确')
-        setPlainText('')
+        setBase64DecOutput('')
       } else {
-        setPlainText(result)
+        setBase64DecOutput(result)
       }
     } catch (error) {
       setDecodeError('解码失败，请检查Base64格式是否正确')
-      setPlainText('')
+      setBase64DecOutput('')
     }
   }
 
@@ -129,8 +131,8 @@ export default function EncodingTool() {
               <textarea 
                 className="w-full h-32 rounded-lg border border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white px-4 py-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none" 
                 placeholder="输入要编码的文本..."
-                value={plainText} 
-                onChange={(e) => setPlainText(e.target.value)} 
+                value={base64Input} 
+                onChange={(e) => setBase64Input(e.target.value)} 
               />
             </div>
             <button 
@@ -153,8 +155,8 @@ export default function EncodingTool() {
               <textarea 
                 className="w-full h-32 rounded-lg border border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white px-4 py-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none" 
                 placeholder="输入要解码的Base64文本..."
-                value={encodedText} 
-                onChange={(e) => setEncodedText(e.target.value)} 
+                value={base64DecInput} 
+                onChange={(e) => setBase64DecInput(e.target.value)} 
               />
             </div>
             <button 
@@ -170,20 +172,20 @@ export default function EncodingTool() {
         </div>
 
         {/* 结果显示 */}
-        {(encodedText || plainText) && (
+        {(base64Output || base64DecOutput) && (
           <div className="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div>
               <div className="flex items-center justify-between mb-2">
                 <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Base64 编码结果</span>
                 <button 
                   className="px-3 py-1 rounded bg-gray-500 text-white text-xs hover:bg-gray-600"
-                  onClick={() => copy(encodedText)}
+                  onClick={() => copy(base64Output)}
                 >
                   复制
                 </button>
               </div>
               <div className="bg-gray-50 dark:bg-gray-800 p-3 rounded border dark:border-gray-700 min-h-[80px] break-all text-sm font-mono">
-                {encodedText || '点击编码按钮生成结果'}
+                {base64Output || '点击编码按钮生成结果'}
               </div>
             </div>
             <div>
@@ -191,13 +193,13 @@ export default function EncodingTool() {
                 <span className="text-sm font-medium text-gray-700 dark:text-gray-300">解码结果</span>
                 <button 
                   className="px-3 py-1 rounded bg-gray-500 text-white text-xs hover:bg-gray-600"
-                  onClick={() => copy(plainText)}
+                  onClick={() => copy(base64DecOutput)}
                 >
                   复制
                 </button>
               </div>
               <div className="bg-gray-50 dark:bg-gray-800 p-3 rounded border dark:border-gray-700 min-h-[80px] break-all text-sm">
-                {plainText || '点击解码按钮生成结果'}
+                {base64DecOutput || '点击解码按钮生成结果'}
               </div>
             </div>
           </div>
