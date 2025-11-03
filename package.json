@@ -7,7 +7,12 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy:gh": "gh-pages -d dist",
+    "deploy:vercel": "vercel --prod",
+    "deploy:netlify": "netlify deploy --prod --dir=dist",
+    "docker:build": "docker build -t xiaoshun-toolbox .",
+    "docker:run": "docker run -p 80:80 xiaoshun-toolbox"
   },
   "dependencies": {
     "@types/js-yaml": "^4.0.9",

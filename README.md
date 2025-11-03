@@ -172,6 +172,135 @@ src/
 
 ---
 
+## 🚀 部署指南 | Deployment Guide
+
+### 📦 构建生产版本 | Build for Production
+
+```bash
+# 构建生产版本
+npm run build
+
+# 预览构建结果（可选）
+npm run preview
+```
+
+构建完成后，所有静态文件将生成在 `dist/` 目录中。
+
+### 🌐 部署选项 | Deployment Options
+
+#### 1. **Vercel 部署** (推荐)
+
+```bash
+# 安装 Vercel CLI
+npm i -g vercel
+
+# 部署到 Vercel
+vercel --prod
+```
+
+或者直接连接 GitHub 仓库到 Vercel 进行自动部署。
+
+#### 2. **Netlify 部署**
+
+```bash
+# 安装 Netlify CLI
+npm install -g netlify-cli
+
+# 部署到 Netlify
+netlify deploy --prod --dir=dist
+```
+
+或者将 `dist` 文件夹拖拽到 Netlify 控制台。
+
+#### 3. **GitHub Pages 部署**
+
+在 `package.json` 中添加部署脚本：
+
+```json
+{
+  "scripts": {
+    "deploy": "gh-pages -d dist"
+  }
+}
+```
+
+```bash
+# 安装 gh-pages
+npm install --save-dev gh-pages
+
+# 部署到 GitHub Pages
+npm run deploy
+```
+
+#### 4. **Docker 部署**
+
+创建 `Dockerfile`：
+
+```dockerfile
+FROM nginx:alpine
+COPY dist /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
+```
+
+```bash
+# 构建 Docker 镜像
+docker build -t xiaoshun-toolbox .
+
+# 运行容器
+docker run -p 80:80 xiaoshun-toolbox
+```
+
+#### 5. **传统服务器部署**
+
+将 `dist` 文件夹中的所有文件上传到你的 Web 服务器根目录。
+
+**Nginx 配置示例：**
+
+```nginx
+server {
+    listen 80;
+    server_name your-domain.com;
+    root /path/to/dist;
+    index index.html;
+
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+
+    # 启用 gzip 压缩
+    gzip on;
+    gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
+}
+```
+
+### ⚙️ 环境变量配置 | Environment Variables
+
+如果需要配置环境变量，创建 `.env.production` 文件：
+
+```env
+VITE_APP_TITLE=小顺工具箱
+VITE_API_BASE_URL=https://api.your-domain.com
+```
+
+### 🔧 构建优化 | Build Optimization
+
+项目已包含以下优化配置：
+
+- **代码分割**: 自动分割第三方库和应用代码
+- **资源压缩**: CSS/JS 文件自动压缩
+- **Tree Shaking**: 移除未使用的代码
+- **缓存优化**: 文件名包含哈希值，便于缓存管理
+
+### 📊 构建分析 | Bundle Analysis
+
+```bash
+# 分析构建包大小
+npm run build -- --analyze
+```
+
+---
+
 ## 🎨 自定义配置 | Customization
 
 ### 主题配置 | Theme Configuration
