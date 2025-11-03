@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  xiaoshun-toolbox:
+    build: .
+    container_name: xiaoshun-toolbox
+    ports:
+      - "80:80"
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+    volumes:
+      # 可选：挂载日志目录
+      - ./logs:/var/log/nginx
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.xiaoshun-toolbox.rule=Host(`your-domain.com`)"
+      - "traefik.http.routers.xiaoshun-toolbox.tls=true"
+      - "traefik.http.routers.xiaoshun-toolbox.tls.certresolver=letsencrypt"
+
+  # 可选：添加 Traefik 反向代理（用于 HTTPS）
+  # traefik:
+  #   image: traefik:v2.10
+  #   container_name: traefik
+  #   command:
+  #     - "--api.insecure=true"
+  #     - "--providers.docker=true"
+  #     - "--providers.docker.exposedbydefault=false"
+  #     - "--entrypoints.web.address=:80"
+  #     - "--entrypoints.websecure.address=:443"
+  #     - "--certificatesresolvers.letsencrypt.acme.tlschallenge=true"
+  #     - "--certificatesresolvers.letsencrypt.acme.email=your-email@example.com"
+  #     - "--certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json"
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #     - "8080:8080"
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock:ro
+  #     - ./letsencrypt:/letsencrypt
+  #   restart: unless-stopped
