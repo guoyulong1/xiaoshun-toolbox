@@ -1,28 +1,104 @@
-import { useMemo, useState } from 'react'
-import { base64Encode, base64Decode, urlEncode, urlDecode, gzipCompressToBase64, gzipDecompressFromBase64, zlibCompressToBase64, zlibDecompressFromBase64 } from '../utils/encoding'
+import { useState } from 'react'
+import { base64Encode, base64Decode, gzipCompressToBase64, gzipDecompressFromBase64, zlibCompressToBase64, zlibDecompressFromBase64 } from '../utils/encoding'
 
 export default function EncodingTool() {
-  const [text, setText] = useState('')
+  // Base64 编码解码
+  const [plainText, setPlainText] = useState('')
+  const [encodedText, setEncodedText] = useState('')
+  const [encodeError, setEncodeError] = useState('')
+  const [decodeError, setDecodeError] = useState('')
 
-  const b64 = useMemo(() => ({
-    enc: base64Encode(text),
-    dec: base64Decode(base64Encode(text)) ?? ''
-  }), [text])
 
-  const url = useMemo(() => ({
-    enc: urlEncode(text),
-    dec: urlDecode(urlEncode(text))
-  }), [text])
 
-  const [b64Input, setB64Input] = useState('')
-  const [gzipOut, setGzipOut] = useState<string>('')
-  const [gzipIn, setGzipIn] = useState('')
-  const [gzipDec, setGzipDec] = useState<string>('')
-  const [zlibOut, setZlibOut] = useState<string>('')
-  const [zlibIn, setZlibIn] = useState('')
-  const [zlibDec, setZlibDec] = useState<string>('')
+  // Gzip 压缩解压
+  const [gzipInput, setGzipInput] = useState('')
+  const [gzipOutput, setGzipOutput] = useState('')
+  const [gzipDecInput, setGzipDecInput] = useState('')
+  const [gzipDecOutput, setGzipDecOutput] = useState('')
 
-  const copy = async (t: string) => { try { await navigator.clipboard.writeText(t) } catch {} }
+  // Zlib 压缩解压
+  const [zlibInput, setZlibInput] = useState('')
+  const [zlibOutput, setZlibOutput] = useState('')
+  const [zlibDecInput, setZlibDecInput] = useState('')
+  const [zlibDecOutput, setZlibDecOutput] = useState('')
+
+  const copy = async (t: string) => { 
+    try { 
+      await navigator.clipboard.writeText(t)
+      // 可以添加一个简单的提示
+    } catch {} 
+  }
+
+  // Base64 编码
+  const handleEncode = () => {
+    try {
+      setEncodeError('')
+      const result = base64Encode(plainText)
+      setEncodedText(result)
+    } catch (error) {
+      setEncodeError('编码失败，请检查输入内容')
+      setEncodedText('')
+    }
+  }
+
+  // Base64 解码
+  const handleDecode = () => {
+    try {
+      setDecodeError('')
+      const result = base64Decode(encodedText)
+      if (result === null) {
+        setDecodeError('解码失败，请检查Base64格式是否正确')
+        setPlainText('')
+      } else {
+        setPlainText(result)
+      }
+    } catch (error) {
+      setDecodeError('解码失败，请检查Base64格式是否正确')
+      setPlainText('')
+    }
+  }
+
+
+
+  // Gzip 压缩
+  const handleGzipCompress = () => {
+    try {
+      const result = gzipCompressToBase64(gzipInput)
+      setGzipOutput(result)
+    } catch (error) {
+      setGzipOutput('压缩失败')
+    }
+  }
+
+  // Gzip 解压
+  const handleGzipDecompress = () => {
+    try {
+      const result = gzipDecompressFromBase64(gzipDecInput)
+      setGzipDecOutput(result ?? '解压失败，请检查格式')
+    } catch (error) {
+      setGzipDecOutput('解压失败，请检查格式')
+    }
+  }
+
+  // Zlib 压缩
+  const handleZlibCompress = () => {
+    try {
+      const result = zlibCompressToBase64(zlibInput)
+      setZlibOutput(result)
+    } catch (error) {
+      setZlibOutput('压缩失败')
+    }
+  }
+
+  // Zlib 解压
+  const handleZlibDecompress = () => {
+    try {
+      const result = zlibDecompressFromBase64(zlibDecInput)
+      setZlibDecOutput(result ?? '解压失败，请检查格式')
+    } catch (error) {
+      setZlibDecOutput('解压失败，请检查格式')
+    }
+  }
 
   return (
     <div className="space-y-8">
@@ -31,88 +107,268 @@ export default function EncodingTool() {
           <span className="text-white text-lg">🔐</span>
         </div>
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">编码/解码工具</h1>
-          <p className="text-gray-600">Base64、URL 编码解码，以及 Gzip/Zlib 压缩与解压</p>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">编码/解码工具</h1>
+          <p className="text-gray-600 dark:text-gray-400">Base64 编码解码，以及 Gzip/Zlib 压缩与解压</p>
         </div>
       </div>
 
+      {/* Base64 编码解码 */}
       <section className="rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 p-6 shadow-sm hover:shadow-md transition-shadow">
-        <h2 className="text-lg font-semibold mb-2">Base64 与 URL 编码/解码</h2>
-        <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+        <h2 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Base64 编码/解码</h2>
+        <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
           <strong>注意：</strong>Base64 是编码方式，不是加密！任何人都可以轻松解码，不提供安全保护。
         </p>
-        <textarea className="w-full rounded-lg border border-gray-300 dark:border-gray-700 dark:bg-gray-800 px-4 py-3 mb-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent" rows={4} placeholder="输入文本" value={text} onChange={(e)=>setText(e.target.value)} />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-          <div>
-            <div className="font-medium mb-1">Base64 编码</div>
-            <code className="block bg-gray-50 dark:bg-gray-800 p-2 rounded border dark:border-gray-700 break-all">{b64.enc}</code>
-            <div className="mt-2">
-              <button className="px-3 py-1.5 rounded bg-purple-500 text-white text-xs hover:bg-purple-600" onClick={()=>copy(b64.enc)}>复制</button>
+        
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* 编码部分 */}
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                原始文本 (Plain Text)
+              </label>
+              <textarea 
+                className="w-full h-32 rounded-lg border border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white px-4 py-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none" 
+                placeholder="输入要编码的文本..."
+                value={plainText} 
+                onChange={(e) => setPlainText(e.target.value)} 
+              />
             </div>
-            <div className="mt-3 font-medium mb-1">Base64 解码</div>
-            <code className="block bg-gray-50 dark:bg-gray-800 p-2 rounded border dark:border-gray-700 break-all">{b64.dec}</code>
-            <div className="mt-2">
-              <button className="px-3 py-1.5 rounded bg-purple-500 text-white text-xs hover:bg-purple-600" onClick={()=>copy(b64.dec)}>复制</button>
-            </div>
+            <button 
+              className="w-full px-4 py-3 rounded-lg bg-purple-500 text-white hover:bg-purple-600 transition-colors font-medium"
+              onClick={handleEncode}
+            >
+              🔒 编码为 Base64
+            </button>
+            {encodeError && (
+              <p className="text-red-500 text-sm">{encodeError}</p>
+            )}
           </div>
-          <div>
-            <div className="font-medium mb-1">URL 编码</div>
-            <code className="block bg-gray-50 dark:bg-gray-800 p-2 rounded border dark:border-gray-700 break-all">{url.enc}</code>
-            <div className="mt-2">
-              <button className="px-3 py-1.5 rounded bg-purple-500 text-white text-xs hover:bg-purple-600" onClick={()=>copy(url.enc)}>复制</button>
+
+          {/* 解码部分 */}
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                Base64 编码文本
+              </label>
+              <textarea 
+                className="w-full h-32 rounded-lg border border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white px-4 py-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none" 
+                placeholder="输入要解码的Base64文本..."
+                value={encodedText} 
+                onChange={(e) => setEncodedText(e.target.value)} 
+              />
             </div>
-            <div className="mt-3 font-medium mb-1">URL 解码</div>
-            <code className="block bg-gray-50 dark:bg-gray-800 p-2 rounded border dark:border-gray-700 break-all">{url.dec}</code>
-            <div className="mt-2">
-              <button className="px-3 py-1.5 rounded bg-purple-500 text-white text-xs hover:bg-purple-600" onClick={()=>copy(url.dec)}>复制</button>
-            </div>
+            <button 
+              className="w-full px-4 py-3 rounded-lg bg-green-500 text-white hover:bg-green-600 transition-colors font-medium"
+              onClick={handleDecode}
+            >
+              🔓 解码 Base64
+            </button>
+            {decodeError && (
+              <p className="text-red-500 text-sm">{decodeError}</p>
+            )}
           </div>
         </div>
+
+        {/* 结果显示 */}
+        {(encodedText || plainText) && (
+          <div className="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Base64 编码结果</span>
+                <button 
+                  className="px-3 py-1 rounded bg-gray-500 text-white text-xs hover:bg-gray-600"
+                  onClick={() => copy(encodedText)}
+                >
+                  复制
+                </button>
+              </div>
+              <div className="bg-gray-50 dark:bg-gray-800 p-3 rounded border dark:border-gray-700 min-h-[80px] break-all text-sm font-mono">
+                {encodedText || '点击编码按钮生成结果'}
+              </div>
+            </div>
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">解码结果</span>
+                <button 
+                  className="px-3 py-1 rounded bg-gray-500 text-white text-xs hover:bg-gray-600"
+                  onClick={() => copy(plainText)}
+                >
+                  复制
+                </button>
+              </div>
+              <div className="bg-gray-50 dark:bg-gray-800 p-3 rounded border dark:border-gray-700 min-h-[80px] break-all text-sm">
+                {plainText || '点击解码按钮生成结果'}
+              </div>
+            </div>
+          </div>
+        )}
       </section>
 
-      <section className="rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 p-6 space-y-3 shadow-sm hover:shadow-md transition-shadow">
-        <h2 className="text-lg font-semibold">Gzip 压缩/解压（Base64）</h2>
-        <div className="flex gap-2">
-          <textarea className="flex-1 rounded-lg border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent" rows={4} placeholder="输入文本以压缩" value={b64Input} onChange={(e)=>setB64Input(e.target.value)} />
-          <button className="px-4 py-3 rounded-lg bg-brand-500 text-white hover:bg-brand-600 transition-colors" onClick={()=>setGzipOut(gzipCompressToBase64(b64Input))}>压缩 → Base64</button>
+
+
+      {/* Gzip 压缩解压 */}
+      <section className="rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 p-6 shadow-sm hover:shadow-md transition-shadow">
+        <h2 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Gzip 压缩/解压（Base64）</h2>
+        
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Gzip压缩部分 */}
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                原始文本
+              </label>
+              <textarea 
+                className="w-full h-24 rounded-lg border border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white px-4 py-3 focus:ring-2 focus:ring-red-500 focus:border-transparent resize-none" 
+                placeholder="输入要压缩的文本..."
+                value={gzipInput} 
+                onChange={(e) => setGzipInput(e.target.value)} 
+              />
+            </div>
+            <button 
+              className="w-full px-4 py-3 rounded-lg bg-red-500 text-white hover:bg-red-600 transition-colors font-medium"
+              onClick={handleGzipCompress}
+            >
+              🗜️ Gzip 压缩
+            </button>
+          </div>
+
+          {/* Gzip解压部分 */}
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                Gzip Base64 文本
+              </label>
+              <textarea 
+                className="w-full h-24 rounded-lg border border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white px-4 py-3 focus:ring-2 focus:ring-red-500 focus:border-transparent resize-none" 
+                placeholder="输入要解压的Gzip Base64文本..."
+                value={gzipDecInput} 
+                onChange={(e) => setGzipDecInput(e.target.value)} 
+              />
+            </div>
+            <button 
+              className="w-full px-4 py-3 rounded-lg bg-pink-500 text-white hover:bg-pink-600 transition-colors font-medium"
+              onClick={handleGzipDecompress}
+            >
+              📦 Gzip 解压
+            </button>
+          </div>
         </div>
-        {gzipOut && (
-          <div>
-            <code className="block bg-gray-50 dark:bg-gray-800 p-2 rounded border dark:border-gray-700 break-all">{gzipOut}</code>
-            <div className="mt-2">
-              <button className="px-3 py-1.5 rounded bg-purple-500 text-white text-xs hover:bg-purple-600" onClick={()=>copy(gzipOut)}>复制</button>
+
+        {/* Gzip结果显示 */}
+        {(gzipOutput || gzipDecOutput) && (
+          <div className="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Gzip 压缩结果 (Base64)</span>
+                <button 
+                  className="px-3 py-1 rounded bg-gray-500 text-white text-xs hover:bg-gray-600"
+                  onClick={() => copy(gzipOutput)}
+                >
+                  复制
+                </button>
+              </div>
+              <div className="bg-gray-50 dark:bg-gray-800 p-3 rounded border dark:border-gray-700 min-h-[60px] break-all text-sm font-mono">
+                {gzipOutput || '点击压缩按钮生成结果'}
+              </div>
+            </div>
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Gzip 解压结果</span>
+                <button 
+                  className="px-3 py-1 rounded bg-gray-500 text-white text-xs hover:bg-gray-600"
+                  onClick={() => copy(gzipDecOutput)}
+                >
+                  复制
+                </button>
+              </div>
+              <div className="bg-gray-50 dark:bg-gray-800 p-3 rounded border dark:border-gray-700 min-h-[60px] break-all text-sm">
+                {gzipDecOutput || '点击解压按钮生成结果'}
+              </div>
             </div>
           </div>
-        )}
-        <div className="flex gap-2">
-          <textarea className="flex-1 rounded-lg border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent" rows={3} placeholder="输入 Gzip Base64 以解压" value={gzipIn} onChange={(e)=>setGzipIn(e.target.value)} />
-          <button className="px-4 py-3 rounded-lg bg-brand-500 text-white hover:bg-brand-600 transition-colors" onClick={()=>setGzipDec(gzipDecompressFromBase64(gzipIn) ?? '')}>解压</button>
-        </div>
-        {gzipDec && (
-          <code className="block bg-gray-50 dark:bg-gray-800 p-2 rounded border dark:border-gray-700 break-all">{gzipDec}</code>
         )}
       </section>
 
-      <section className="rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 p-6 space-y-3 shadow-sm hover:shadow-md transition-shadow">
-        <h2 className="text-lg font-semibold">Zlib 压缩/解压（Base64）</h2>
-        <div className="flex gap-2">
-          <textarea className="flex-1 rounded-lg border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent" rows={4} placeholder="输入文本以压缩" value={zlibIn} onChange={(e)=>setZlibIn(e.target.value)} />
-          <button className="px-4 py-3 rounded-lg bg-brand-500 text-white hover:bg-brand-600 transition-colors" onClick={()=>setZlibOut(zlibCompressToBase64(zlibIn))}>压缩 → Base64</button>
+      {/* Zlib 压缩解压 */}
+      <section className="rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 p-6 shadow-sm hover:shadow-md transition-shadow">
+        <h2 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Zlib 压缩/解压（Base64）</h2>
+        
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Zlib压缩部分 */}
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                原始文本
+              </label>
+              <textarea 
+                className="w-full h-24 rounded-lg border border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white px-4 py-3 focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none" 
+                placeholder="输入要压缩的文本..."
+                value={zlibInput} 
+                onChange={(e) => setZlibInput(e.target.value)} 
+              />
+            </div>
+            <button 
+              className="w-full px-4 py-3 rounded-lg bg-indigo-500 text-white hover:bg-indigo-600 transition-colors font-medium"
+              onClick={handleZlibCompress}
+            >
+              🗜️ Zlib 压缩
+            </button>
+          </div>
+
+          {/* Zlib解压部分 */}
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                Zlib Base64 文本
+              </label>
+              <textarea 
+                className="w-full h-24 rounded-lg border border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white px-4 py-3 focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none" 
+                placeholder="输入要解压的Zlib Base64文本..."
+                value={zlibDecInput} 
+                onChange={(e) => setZlibDecInput(e.target.value)} 
+              />
+            </div>
+            <button 
+              className="w-full px-4 py-3 rounded-lg bg-cyan-500 text-white hover:bg-cyan-600 transition-colors font-medium"
+              onClick={handleZlibDecompress}
+            >
+              📦 Zlib 解压
+            </button>
+          </div>
         </div>
-        {zlibOut && (
-          <div>
-            <code className="block bg-gray-50 dark:bg-gray-800 p-2 rounded border dark:border-gray-700 break-all">{zlibOut}</code>
-            <div className="mt-2">
-              <button className="px-3 py-1.5 rounded bg-purple-500 text-white text-xs hover:bg-purple-600" onClick={()=>copy(zlibOut)}>复制</button>
+
+        {/* Zlib结果显示 */}
+        {(zlibOutput || zlibDecOutput) && (
+          <div className="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Zlib 压缩结果 (Base64)</span>
+                <button 
+                  className="px-3 py-1 rounded bg-gray-500 text-white text-xs hover:bg-gray-600"
+                  onClick={() => copy(zlibOutput)}
+                >
+                  复制
+                </button>
+              </div>
+              <div className="bg-gray-50 dark:bg-gray-800 p-3 rounded border dark:border-gray-700 min-h-[60px] break-all text-sm font-mono">
+                {zlibOutput || '点击压缩按钮生成结果'}
+              </div>
+            </div>
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Zlib 解压结果</span>
+                <button 
+                  className="px-3 py-1 rounded bg-gray-500 text-white text-xs hover:bg-gray-600"
+                  onClick={() => copy(zlibDecOutput)}
+                >
+                  复制
+                </button>
+              </div>
+              <div className="bg-gray-50 dark:bg-gray-800 p-3 rounded border dark:border-gray-700 min-h-[60px] break-all text-sm">
+                {zlibDecOutput || '点击解压按钮生成结果'}
+              </div>
             </div>
           </div>
-        )}
-        <div className="flex gap-2">
-          <textarea className="flex-1 rounded-lg border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent" rows={3} placeholder="输入 Zlib Base64 以解压" value={zlibIn} onChange={(e)=>setZlibIn(e.target.value)} />
-          <button className="px-4 py-3 rounded-lg bg-brand-500 text-white hover:bg-brand-600 transition-colors" onClick={()=>setZlibDec(zlibDecompressFromBase64(zlibIn) ?? '')}>解压</button>
-        </div>
-        {zlibDec && (
-          <code className="block bg-gray-50 dark:bg-gray-800 p-2 rounded border dark:border-gray-700 break-all">{zlibDec}</code>
         )}
       </section>
     </div>
