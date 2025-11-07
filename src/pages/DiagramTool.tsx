@@ -1,9 +1,10 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import PageHeader from '../components/ui/PageHeader'
 import Card from '../components/ui/Card'
 import Button from '../components/ui/Button'
 import { plantUmlUrlFromText, type PlantUmlFormat } from '../utils/plantuml'
 import mermaid from 'mermaid'
+import type { MermaidConfig } from 'mermaid'
 // BPMN viewer assets
 import 'bpmn-js/dist/assets/diagram-js.css'
 import 'bpmn-js/dist/assets/bpmn-js.css'
@@ -117,7 +118,7 @@ skinparam ActorFontColor #111827
   }
 
   // Build Mermaid config by theme key
-  const mermaidConfig = useMemo(() => {
+  const mermaidConfig: MermaidConfig = useMemo(() => {
     if (mermaidTheme === 'beauty') {
       return {
         startOnLoad: false,
@@ -144,14 +145,14 @@ skinparam ActorFontColor #111827
           nodeSpacing: 60,
           rankSpacing: 70
         }
-      } as mermaid.Config
+      } as MermaidConfig
     }
     // Predefined themes
     return {
       startOnLoad: false,
       theme: mermaidTheme,
       flowchart: { curve: 'basis', nodeSpacing: 50, rankSpacing: 60 }
-    } as mermaid.Config
+    } as MermaidConfig
   }, [mermaidTheme])
 
   // Init mermaid & apply theme
@@ -569,34 +570,4 @@ title 订单状态机
   section 测试
   单元测试     :         des3, 2025-01-15, 2025-01-22
   集成测试     :         des4, 2025-01-23, 2025-01-28`
-  }
-
-  // Helper: build effective PlantUML text with auto-wrap and beautify
-  const buildEffectivePuml = (raw: string) => {
-    let t = raw.trim()
-    const hasStart = /@startuml/i.test(t)
-    const hasEnd = /@enduml/i.test(t)
-    const beautifyBlock = pumlBeautify ? `skinparam backgroundColor transparent
-skinparam shadowing true
-skinparam roundcorner 15
-skinparam ArrowColor #6366F1
-skinparam ClassBorderColor #6366F1
-skinparam ClassBackgroundColor #EEF2FF
-skinparam ActivityBorderColor #6366F1
-skinparam ActivityBackgroundColor #EEF2FF
-skinparam ActorBorderColor #6366F1
-skinparam ActorFontColor #111827
-` : ''
-
-    if (hasStart) {
-      // 插入美化块到 @startuml 之后
-      if (pumlBeautify) {
-        t = t.replace(/@startuml\s*/i, (m) => `${m}\n${beautifyBlock}`)
-      }
-      return t
-    }
-    if (pumlAutoWrap) {
-      return `@startuml\n${beautifyBlock}${t}\n${hasEnd ? '' : '@enduml'}`
-    }
-    return t
   }
