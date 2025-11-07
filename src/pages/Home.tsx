@@ -68,6 +68,14 @@ export default function Home() {
       path: '/formatter',
       accent: 'pink'
     }
+    ,
+    {
+      title: '图表/流程图',
+      description: 'PlantUML(puml) 转图片、Mermaid(graph TD) 本地渲染，左侧输入右侧预览',
+      icon: '📊',
+      path: '/diagram',
+      accent: 'indigo'
+    }
   ]
 
   return (

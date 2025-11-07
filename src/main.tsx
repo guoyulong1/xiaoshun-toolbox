@@ -13,6 +13,7 @@ import PathPlanningTool from './pages/PathPlanningTool'
 import RoboticsTool from './pages/RoboticsTool'
 import MapTool from './pages/MapTool'
 import JsonTool from './pages/JsonTool'
+import DiagramTool from './pages/DiagramTool'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -29,6 +30,7 @@ createRoot(document.getElementById('root')!).render(
           <Route path="path" element={<PathPlanningTool />} />
           <Route path="robot" element={<RoboticsTool />} />
           <Route path="map" element={<MapTool />} />
+          <Route path="diagram" element={<DiagramTool />} />
         </Route>
       </Routes>
     </BrowserRouter>

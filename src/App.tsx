@@ -39,7 +39,8 @@ function Sidebar() {
     { to: '/formatter', label: '代码格式化', icon: '🎨' },
     { to: '/path', label: '路径规划', icon: '🗺️' },
     { to: '/robot', label: 'CRC 校验', icon: '🛡️' },
-    { to: '/map', label: '地图显示', icon: '🏠' }
+    { to: '/map', label: '地图显示', icon: '🏠' },
+    { to: '/diagram', label: '图表/流程图', icon: '📊' }
   ]
   
   return (

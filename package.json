@@ -29,10 +29,13 @@
   },
   "dependencies": {
     "@types/js-yaml": "^4.0.9",
+    "bpmn-js": "^11.5.0",
     "gif.js": "^0.2.0",
     "js-yaml": "^4.1.0",
     "jszip": "^3.10.1",
+    "mermaid": "^10.9.1",
     "pako": "^2.1.0",
+    "plantuml-encoder": "^1.4.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-router-dom": "^7.9.5"
