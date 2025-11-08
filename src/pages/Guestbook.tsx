@@ -141,7 +141,7 @@ export default function Guestbook() {
         .padding(4)
         .rotate(() => 0)
         .font('system-ui')
-        .fontSize(d => (d as any).size)
+        .fontSize((d: { size: number }) => d.size)
         .on('end', (words: any[]) => {
           setCloudWords(words.map(w => ({ text: w.text, size: w.size, x: w.x, y: w.y, rotate: 0 })))
         })
@@ -160,14 +160,14 @@ export default function Guestbook() {
           icon={<span>💬</span>}
           title="留言板"
           subtitle="添加你希望增加的功能，支持选择用户名和邮箱；我们会将关键词汇总生成词云，可按词筛选浏览相关留言"
-          accent="violet"
+          accent="indigo"
         />
 
         {/* 主体栅格：左表单 右词云与列表 */}
         <div className="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* 左侧：提交表单 */}
           <div className="lg:col-span-1">
-            <Card className="p-5" accent="violet">
+            <Card className="p-5" accent="indigo">
               <h3 className="text-base font-semibold mb-4">提交你的建议</h3>
               <form onSubmit={onSubmit} className="space-y-4">
                 <div>
@@ -208,7 +208,7 @@ export default function Guestbook() {
                 </div>
                 <div className="flex items-center gap-3 pt-2">
                   <Button type="submit" variant="primary" size="md">提交</Button>
-                  <Button type="button" variant="tertiary" size="md" onClick={clearAll}>清空全部</Button>
+                  <Button type="button" variant="danger" size="md" onClick={clearAll}>清空全部</Button>
                 </div>
               </form>
             </Card>
