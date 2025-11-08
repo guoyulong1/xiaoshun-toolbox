@@ -41,7 +41,8 @@ function Sidebar() {
     { to: '/yaml', label: 'YAML 转换', icon: '📄' },
     { to: '/formatter', label: '代码格式化', icon: '🎨' },
     { to: '/robot', label: 'CRC 校验', icon: '🛡️' },
-    { to: '/compare', label: '文本比较', icon: '🧾' }
+    { to: '/compare', label: '文本比较', icon: '🧾' },
+    { to: '/guestbook', label: '留言板', icon: '💬' }
   ]
   
   return (
@@ -81,11 +82,7 @@ function Sidebar() {
       </nav>
       
       {/* 底部信息 */}
-      <div className="p-4 border-t border-gray-100 dark:border-gray-800">
-        <div className="text-xs text-gray-500 dark:text-gray-400 text-center">
-          v1.0.0 • 本地运行
-        </div>
-      </div>
+      <SidebarFooter />
     </aside>
   )
 }
@@ -110,3 +107,35 @@ function Layout() {
 }
 
 export default Layout
+
+function SidebarFooter() {
+  const [open, setOpen] = useState(false)
+  return (
+    <div className="p-4 border-t border-gray-100 dark:border-gray-800">
+      <div className="text-xs text-gray-500 dark:text-gray-400 text-center">
+        <button className="hover:underline" onClick={() => setOpen(v => !v)}>v1.0.1 • 本地运行</button>
+      </div>
+      {open && (
+        <div className="mt-3 text-xs bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-3">
+          <div className="font-semibold mb-2">版本更新内容</div>
+          <div className="space-y-1">
+            <div className="font-medium">v1.0.1</div>
+            <ul className="list-disc list-inside">
+              <li>新增：留言板（需求词云），支持本地存储、关键词筛选</li>
+              <li>新增：文本比较增强（原文高亮、行号显示、左右同步滚动）</li>
+              <li>优化：首页卡片布局（更宽间距、四列栅格）、导航顺序调整</li>
+              <li>新增：侧边栏“文本比较”与“留言板”入口</li>
+            </ul>
+            <div className="font-medium mt-2">v1.0.0</div>
+            <ul className="list-disc list-inside">
+              <li>图表/流程图：PlantUML 与 Mermaid 本地渲染</li>
+              <li>地图显示：地图数据可视化与家庭地图模拟</li>
+              <li>JSON 解析：格式化、美化、验证与统计分析</li>
+              <li>时间转换、进制转换、编码/解码、YAML 转换、代码格式化、路径规划、机器人调试等基础工具</li>
+            </ul>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}

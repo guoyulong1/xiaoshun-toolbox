@@ -15,6 +15,7 @@ import MapTool from './pages/MapTool'
 import JsonTool from './pages/JsonTool'
 import DiagramTool from './pages/DiagramTool'
 import CompareTool from './pages/CompareTool'
+import Guestbook from './pages/Guestbook'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -32,7 +33,8 @@ createRoot(document.getElementById('root')!).render(
           <Route path="path" element={<PathPlanningTool />} />
           <Route path="robot" element={<RoboticsTool />} />
           <Route path="map" element={<MapTool />} />
-          <Route path="diagram" element={<DiagramTool />} />
+        <Route path="diagram" element={<DiagramTool />} />
+        <Route path="guestbook" element={<Guestbook />} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -30,6 +30,7 @@
   "dependencies": {
     "@types/js-yaml": "^4.0.9",
     "bpmn-js": "^11.5.0",
+    "d3-cloud": "^1.2.7",
     "gif.js": "^0.2.0",
     "js-yaml": "^4.1.0",
     "jszip": "^3.10.1",

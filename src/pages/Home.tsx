@@ -81,6 +81,13 @@ export default function Home() {
       icon: '🧾',
       path: '/compare',
       accent: 'violet'
+    },
+    {
+      title: '留言板',
+      description: '提交你希望增加的功能（关键词），选择用户名与邮箱，自动生成词云并按词筛选留言',
+      icon: '💬',
+      path: '/guestbook',
+      accent: 'violet'
     }
   ]
 
