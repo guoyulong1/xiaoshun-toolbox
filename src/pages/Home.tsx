@@ -34,17 +34,17 @@ export default function Home() {
       accent: 'orange'
     },
     {
-      title: 'CRC 校验',
-      description: 'CRC16/CRC32校验计算，十六进制数据查看器，数据完整性验证工具',
-      icon: '🛡️',
-      path: '/robot',
-      accent: 'red'
-    },
-    {
       title: '地图显示',
       description: '可视化地图数据展示，支持自定义大小和家庭地图模拟，数据可视化工具',
       icon: '🏠',
       path: '/map',
+      accent: 'indigo'
+    },
+    {
+      title: '图表/流程图',
+      description: 'PlantUML(puml) 转图片、Mermaid(graph TD) 本地渲染，左侧输入右侧预览',
+      icon: '📊',
+      path: '/diagram',
       accent: 'indigo'
     },
     {
@@ -67,14 +67,20 @@ export default function Home() {
       icon: '🎨',
       path: '/formatter',
       accent: 'pink'
-    }
-    ,
+    },
     {
-      title: '图表/流程图',
-      description: 'PlantUML(puml) 转图片、Mermaid(graph TD) 本地渲染，左侧输入右侧预览',
-      icon: '📊',
-      path: '/diagram',
-      accent: 'indigo'
+      title: 'CRC 校验',
+      description: 'CRC16/CRC32校验计算，十六进制数据查看器，数据完整性验证工具',
+      icon: '🛡️',
+      path: '/robot',
+      accent: 'red'
+    },
+    {
+      title: '文本比较',
+      description: '输入左右文本，对比并高亮差异（删除/新增），支持深色模式与长文本行号同步滚动',
+      icon: '🧾',
+      path: '/compare',
+      accent: 'violet'
     }
   ]
 
@@ -92,19 +98,19 @@ export default function Home() {
         </div>
 
         {/* 工具卡片网格 */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 mb-12">
           {tools.map((tool) => (
             <Link key={tool.path} to={tool.path} className="group">
-              <Card variant="solid" accent={tool.accent as any} className="p-6 transition-all hover:-translate-y-0.5">
-                <div className="text-3xl mb-4">{tool.icon}</div>
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">
+              <Card variant="solid" accent={tool.accent as any} className="p-7 lg:p-8 transition-all hover:-translate-y-1 shadow-md hover:shadow-lg">
+                <div className="text-4xl lg:text-5xl mb-5">{tool.icon}</div>
+                <h3 className="text-lg lg:text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">
                   {tool.title}
                 </h3>
-                <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
+                <p className="text-sm md:text-base text-gray-600 dark:text-gray-300 leading-relaxed">
                   {tool.description}
                 </p>
-                <div className="mt-5">
-                  <Button size="sm" variant="secondary">开始使用</Button>
+                <div className="mt-6">
+                  <Button size="md" variant="secondary">开始使用</Button>
                 </div>
               </Card>
             </Link>

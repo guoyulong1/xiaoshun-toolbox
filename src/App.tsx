@@ -34,13 +34,14 @@ function Sidebar() {
     { to: '/time', label: '时间转换', icon: '🕒' },
     { to: '/base', label: '进制转换', icon: '🔢' },
     { to: '/encoding', label: '编码/解码', icon: '🔐' },
+    { to: '/path', label: '路径规划', icon: '🗺️' },
+    { to: '/map', label: '地图显示', icon: '🏠' },
+    { to: '/diagram', label: '图表/流程图', icon: '📊' },
     { to: '/json', label: 'JSON 解析', icon: '🔍' },
     { to: '/yaml', label: 'YAML 转换', icon: '📄' },
     { to: '/formatter', label: '代码格式化', icon: '🎨' },
-    { to: '/path', label: '路径规划', icon: '🗺️' },
     { to: '/robot', label: 'CRC 校验', icon: '🛡️' },
-    { to: '/map', label: '地图显示', icon: '🏠' },
-    { to: '/diagram', label: '图表/流程图', icon: '📊' }
+    { to: '/compare', label: '文本比较', icon: '🧾' }
   ]
   
   return (

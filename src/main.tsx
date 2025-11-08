@@ -14,6 +14,7 @@ import RoboticsTool from './pages/RoboticsTool'
 import MapTool from './pages/MapTool'
 import JsonTool from './pages/JsonTool'
 import DiagramTool from './pages/DiagramTool'
+import CompareTool from './pages/CompareTool'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -21,6 +22,7 @@ createRoot(document.getElementById('root')!).render(
       <Routes>
         <Route path="/" element={<Layout />}> 
           <Route index element={<Home />} />
+          <Route path="compare" element={<CompareTool />} />
           <Route path="time" element={<TimeTool />} />
           <Route path="base" element={<BaseConvertTool />} />
           <Route path="encoding" element={<EncodingTool />} />
